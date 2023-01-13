@@ -1,11 +1,12 @@
-name: smk-cytokine
+name: smk-update
 channels:
   - conda-forge
   - bioconda
   - defaults
   - r
 dependencies:
-  - r-base=4
+  - r-base=4.2
+  - r-devtools
   - r-doFuture
   - r-foreach
   - r-future
@@ -15,4 +16,5 @@ dependencies:
   - r-rpart
   - r-tidyverse
   - r-ape
+  - r-cowplot
   - snakemake
