@@ -16,7 +16,7 @@ rule preprocess_data:
         outcome_colname='{phenotype}'
     resources:
         ncores=ncores, #This is present but not active in the cluster.json file since the multiple cores was not necessary for the size of input matrices, it was an inefficient use of resources; if preprocessing requires more, add back in this to the cluster.json file for this rule
-        mem_mb = get_mem_mb_low
+        mem_mb = get_mem_mb_med
     script:
         "code/preproc.R"
 
@@ -95,6 +95,8 @@ rule plot_performance:
         csv='results/{phenotype}/{group}.{genome}.performance_results.csv'
     output:
         plot='figures/{phenotype}/{group}.{genome}.performance.png'
+    resources:
+        mem_mb = get_mem_mb_low
     log:
         "log/{phenotype}/{group}.{genome}.plot_performance.txt"
     script:
@@ -106,6 +108,8 @@ rule plot_hp_performance:
         rds=rules.combine_hp_performance.output.rds,
     output:
         plot='figures/{phenotype}/{group}.{genome}.hp_performance_{method}.png'
+    resources:
+        mem_mb = get_mem_mb_low
     log:
         'log/{phenotype}/{group}.{genome}.plot_hp_perf_{method}.txt'
     script:
@@ -117,6 +121,8 @@ rule plot_benchmarks:
         csv=rules.combine_benchmarks.output.csv
     output:
         plot='figures/{phenotype}/{group}.{genome}.benchmarks.png'
+    resources:
+        mem_mb = get_mem_mb_low
     log:
         'log/{phenotype}/{group}.{genome}.plot_benchmarks.txt'
     script:
@@ -138,7 +144,9 @@ rule render_report:
         nseeds=nseeds,
         ml_methods=ml_methods,
         ncores=ncores,
-        kfold=kfold
+        kfold=kfold,
+    resources:
+        mem_mb = "1GB"
     script:
         'code/render.R'
 

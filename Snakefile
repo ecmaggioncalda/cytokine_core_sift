@@ -48,12 +48,12 @@ checkpoint prepro_overall:
     output:
         dat_dir = directory("data/pheno/{phenotype}")
     log:
-        "log/{phenotype}/prepro_overall.txt"
+        "log/{phenotype}.prepro_overall.txt"
     resources:
         ncores = ncores,
         mem_mb = get_mem_mb_lowest
     benchmark:
-        "benchmarks/{phenotype}/prepro_overall.txt"
+        "benchmarks/{phenotype}.prepro_overall.txt"
     script:
         "code/prepro_overall.R"
 
@@ -184,6 +184,7 @@ def aggregate_input4(wildcards):
     # finish_list = [aggregate_input1, aggregate_input2, aggregate_input4]
 
 finish_list = [aggregate_input1, aggregate_input2, aggregate_input4]
+#finish_list = [aggregate_input1, aggregate_input4]
 
 rule finish_test:
     input:
@@ -192,5 +193,7 @@ rule finish_test:
         "aggregated/{phenotype}.runs.csv"
     log:
         "log/{phenotype}/finish.txt"
+    resources:
+        mem_mb = get_mem_mb_lowest
     script:
         "code/assemble_files.py"
